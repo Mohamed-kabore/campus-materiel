@@ -1,9 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { CatalogueService, DonneesEquipement } from '../../../services/catalogue.service';
+import { MaterielForm } from '../../../components/materiel-form/materiel-form';
 
 @Component({
   selector: 'app-gestion-modifier',
-  imports: [],
+  imports: [RouterLink, MaterielForm],
   templateUrl: './gestion-modifier.html',
-  styleUrl: './gestion-modifier.css',
+  styleUrl: './gestion-modifier.css'
 })
-export class GestionModifier {}
+export class GestionModifier {
+  private readonly catalogue = inject(CatalogueService);
+  private readonly router = inject(Router);
+
+  // rempli avec le :id de l'adresse /gestion/:id/modifier
+  readonly id = input.required<string>();
+  readonly erreur = signal('');
+
+  // même vérification que la fiche détaillée : texte → nombre entier
+  readonly equipement = computed(() => {
+    const id = Number(this.id());
+    if (!Number.isInteger(id)) {
+      return undefined;
+    }
+    return this.catalogue.trouver(id);
+  });
+
+  modifier(donnees: DonneesEquipement) {
+    const e = this.equipement();
+    if (!e) {
+      return;
+    }
+
+    const message = this.catalogue.modifier(e.id, donnees);
+    if (message) {
+      this.erreur.set(message);
+      return;
+    }
+
+    this.router.navigate(['/gestion'], {
+      state: { retour: { texte: `La fiche « ${donnees.nom} » a été modifiée.`, erreur: false } },
+    });
+  }
+}

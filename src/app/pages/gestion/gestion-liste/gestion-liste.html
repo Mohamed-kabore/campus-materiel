@@ -1,1 +1,48 @@
-<p>gestion-liste works!</p>
+<h1>Gestion du catalogue</h1>
+
+<p><a class="bouton" routerLink="/gestion/nouveau">+ Ajouter un équipement</a></p>
+
+@if (retour(); as r) {
+  <p class="message" [class.message-erreur]="r.erreur" [class.message-succes]="!r.erreur" role="status">
+    {{ r.texte }}
+  </p>
+}
+
+@if (catalogue.equipements().length === 0) {
+  <p class="message-vide">Le catalogue est vide. Commencez par ajouter un équipement.</p>
+} @else {
+  <div class="tableau-defilant">
+    <table>
+      <caption>Équipements du catalogue ({{ catalogue.equipements().length }})</caption>
+      <thead>
+        <tr>
+          <th scope="col">N°</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Catégorie</th>
+          <th scope="col">État</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (e of catalogue.equipements(); track e.id) {
+          <tr>
+            <td>{{ e.id }}</td>
+            <td><a [routerLink]="['/materiels', e.id]">{{ e.nom }}</a></td>
+            <td>{{ e.categorie }}</td>
+            <td>
+              <span class="badge" [class.badge-dispo]="reservationService.estDisponible(e.id)"
+                    [class.badge-reserve]="!reservationService.estDisponible(e.id)">
+                {{ reservationService.estDisponible(e.id) ? 'Disponible' : 'Réservé' }}
+              </span>
+            </td>
+            <td class="actions">
+              <a [routerLink]="['/gestion', e.id, 'modifier']" [attr.aria-label]="'Modifier ' + e.nom">Modifier</a>
+              <button type="button" class="bouton-danger" (click)="supprimer(e)"
+                      [attr.aria-label]="'Supprimer ' + e.nom">Supprimer</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

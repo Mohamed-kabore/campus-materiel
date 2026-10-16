@@ -1,1 +1,16 @@
-<p>gestion-modifier works!</p>
+<p><a routerLink="/gestion">← Retour à la gestion</a></p>
+
+@if (equipement(); as e) {
+  <h1>Modifier « {{ e.nom }} »</h1>
+  <p class="aide">Équipement n° {{ e.id }} (l'identifiant ne peut pas être modifié).</p>
+
+  @if (erreur()) {
+    <p class="message message-erreur" role="alert">{{ erreur() }}</p>
+  }
+
+  <app-materiel-form [equipement]="e" libelleBouton="Enregistrer les modifications" (enregistrer)="modifier($event)" />
+} @else {
+  <h1>Équipement introuvable</h1>
+  <p>Aucun équipement ne porte l'identifiant « {{ id() }} ».</p>
+  <p><a routerLink="/gestion">Retour à la liste</a></p>
+}

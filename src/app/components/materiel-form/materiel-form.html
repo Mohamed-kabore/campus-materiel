@@ -1,0 +1,72 @@
+<form [formGroup]="formulaire" (ngSubmit)="valider()" novalidate>
+  <p class="aide">Les champs marqués d'un * sont obligatoires.</p>
+
+  @if (soumis() && formulaire.invalid) {
+    <p class="message message-erreur" role="alert">
+      Le formulaire contient des erreurs. Corrigez les champs indiqués ci-dessous.
+    </p>
+  }
+
+  <!-- Nom -->
+  <div class="champ">
+    <label for="nom">Nom *</label>
+    <input id="nom" type="text" formControlName="nom"
+           [attr.aria-invalid]="afficherErreur('nom')"
+           [attr.aria-describedby]="afficherErreur('nom') ? 'nom-erreur' : null" />
+    @if (afficherErreur('nom')) {
+      <p class="erreur-champ" id="nom-erreur">
+        @if (formulaire.controls.nom.hasError('required')) {
+          Le nom est obligatoire.
+        } @else {
+          Le nom doit contenir au moins 3 caractères.
+        }
+      </p>
+    }
+  </div>
+
+  <!-- Catégorie -->
+  <div class="champ">
+    <label for="categorie">Catégorie *</label>
+    <select id="categorie" formControlName="categorie"
+            [attr.aria-invalid]="afficherErreur('categorie')"
+            [attr.aria-describedby]="afficherErreur('categorie') ? 'categorie-erreur' : null">
+      <option value="">Choisir une catégorie</option>
+      @for (c of categories; track c) {
+        <option [value]="c">{{ c }}</option>
+      }
+    </select>
+    @if (afficherErreur('categorie')) {
+      <p class="erreur-champ" id="categorie-erreur">Choisissez une catégorie.</p>
+    }
+  </div>
+
+  <!-- Description -->
+  <div class="champ">
+    <label for="description">Description *</label>
+    <textarea id="description" rows="4" formControlName="description"
+              [attr.aria-invalid]="afficherErreur('description')"
+              [attr.aria-describedby]="afficherErreur('description') ? 'description-erreur' : null"></textarea>
+    @if (afficherErreur('description')) {
+      <p class="erreur-champ" id="description-erreur">
+        @if (formulaire.controls.description.hasError('required')) {
+          La description est obligatoire.
+        } @else {
+          La description doit contenir au moins 10 caractères.
+        }
+      </p>
+    }
+  </div>
+
+  <!-- Localisation -->
+  <div class="champ">
+    <label for="localisation">Localisation *</label>
+    <input id="localisation" type="text" formControlName="localisation" placeholder="Ex. : Salle B204"
+           [attr.aria-invalid]="afficherErreur('localisation')"
+           [attr.aria-describedby]="afficherErreur('localisation') ? 'localisation-erreur' : null" />
+    @if (afficherErreur('localisation')) {
+      <p class="erreur-champ" id="localisation-erreur">La localisation est obligatoire.</p>
+    }
+  </div>
+
+  <button type="submit">{{ libelleBouton() }}</button>
+</form>
