@@ -25,7 +25,29 @@
     <dd>{{ e.localisation }}</dd>
   </dl>
 
-  <!-- le bouton "Réserver" sera ajouté à l'étape 5 -->
+  <section class="bloc-reservation" aria-labelledby="titre-reservation">
+    <h2 id="titre-reservation">Réservation</h2>
+
+    @if (!reservation()) {
+      @if (session.estEtudiant()) {
+        <p>Cet équipement est disponible.</p>
+        <button type="button" (click)="reserver(e.id)">Réserver cet équipement</button>
+      } @else {
+        <p>Cet équipement est disponible. Seuls les étudiants peuvent réserver du matériel.</p>
+      }
+    } @else if (reserveParMoi()) {
+      <p>Vous avez réservé cet équipement.
+        <a routerLink="/mes-reservations">Voir mes réservations</a></p>
+    } @else {
+      <p>Cet équipement est déjà réservé. Il redeviendra disponible dès que sa réservation sera annulée.</p>
+    }
+
+    @if (retour(); as r) {
+      <p class="message" [class.message-erreur]="r.erreur" [class.message-succes]="!r.erreur" role="status">
+        {{ r.texte }}
+      </p>
+    }
+  </section>
 } @else {
   <h1>Équipement introuvable</h1>
   <p>Aucun équipement ne porte l'identifiant « {{ id() }} ». Il a peut-être été supprimé.</p>

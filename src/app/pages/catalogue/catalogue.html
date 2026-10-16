@@ -22,6 +22,12 @@
   </div>
 </div>
 
+@if (retour(); as r) {
+  <p class="message" [class.message-erreur]="r.erreur" [class.message-succes]="!r.erreur" role="status">
+    {{ r.texte }}
+  </p>
+}
+
 <!-- annoncé par les lecteurs d'écran à chaque changement de filtre -->
 <p class="resultats" role="status">{{ equipementsFiltres().length }} équipement(s) trouvé(s)</p>
 
@@ -39,6 +45,8 @@
         <app-equipement-card
           [equipement]="e"
           [disponible]="reservationService.estDisponible(e.id)"
+          [peutReserver]="session.estEtudiant()"
+          (reserver)="reserver($event)"
         />
       </li>
     }

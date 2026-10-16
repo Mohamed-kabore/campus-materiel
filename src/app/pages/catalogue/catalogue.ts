@@ -1,11 +1,12 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CatalogueService } from '../../services/catalogue.service';
 import { ReservationService } from '../../services/reservation.service';
 import { CATEGORIES } from '../../data/donnees-initiales';
 import { EquipementCard } from '../../components/equipement-card/equipement-card';
-
+import { SessionService } from '../../services/session.service';
+import { MessageRetour } from '../../models/message-retour';
 @Component({
   selector: 'app-catalogue',
   imports: [ReactiveFormsModule, EquipementCard],
@@ -15,7 +16,8 @@ import { EquipementCard } from '../../components/equipement-card/equipement-card
 export class Catalogue {
   readonly catalogue = inject(CatalogueService);
   readonly reservationService = inject(ReservationService);
-
+  readonly session = inject(SessionService);
+  readonly retour = signal<MessageRetour | null>(null);
   readonly categories = CATEGORIES;
 
   // les deux champs de recherche (formulaires réactifs)
@@ -43,5 +45,23 @@ export class Catalogue {
   reinitialiser() {
     this.rechercheCtrl.setValue('');
     this.categorieCtrl.setValue('');
+  }
+
+  // appelée quand une carte émet une demande de réservation
+  reserver(equipementId: number) {
+    const compte = this.session.compte();
+    if (!compte) {
+      return;
+    }
+
+    // c'est le service qui contrôle les règles (étudiant, disponibilité)
+    const erreur = this.reservationService.reserver(equipementId, compte);
+
+    if (erreur) {
+      this.retour.set({ texte: erreur, erreur: true });
+    } else {
+      const nom = this.catalogue.trouver(equipementId)?.nom;
+      this.retour.set({ texte: `Réservation confirmée : ${nom}.`, erreur: false });
+    }
   }
 }

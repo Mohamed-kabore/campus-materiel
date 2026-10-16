@@ -11,4 +11,13 @@
   <p class="badge" [class.badge-dispo]="disponible()" [class.badge-reserve]="!disponible()">
     {{ disponible() ? 'Disponible' : 'Réservé' }}
   </p>
+  @if (peutReserver() && disponible()) {
+    <button
+      type="button"
+      (click)="demanderReservation()"
+      [attr.aria-label]="'Réserver ' + equipement().nom"
+    >
+      Réserver
+    </button>
+  }
 </article>
