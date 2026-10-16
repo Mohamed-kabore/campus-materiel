@@ -1,1 +1,30 @@
-<p>login works!</p>
+<h1>Connexion</h1>
+
+<p class="info">
+  <strong>Connexion simulée :</strong> choisissez un compte de démonstration. Aucun mot de passe
+  n'est demandé.
+</p>
+
+@if (session.compte(); as compte) {
+  <p>
+    Vous êtes déjà connecté en tant que <strong>{{ compte.nom }}</strong
+    >. <a routerLink="/catalogue">Aller au catalogue</a>
+  </p>
+}
+
+<ul class="comptes">
+  @for (compte of session.comptesDemo; track compte.id) {
+    <li>
+      <button type="button" class="compte" (click)="seConnecter(compte.id)">
+        <span class="compte-nom">{{ compte.nom }}</span>
+        <span class="compte-role">{{
+          compte.role === 'student' ? 'Étudiant' : 'Responsable'
+        }}</span>
+      </button>
+    </li>
+  }
+</ul>
+
+@if (erreur()) {
+  <p class="erreur" role="alert">{{ erreur() }}</p>
+}
