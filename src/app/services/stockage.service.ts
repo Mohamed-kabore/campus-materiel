@@ -27,7 +27,15 @@ export class StockageService {
         return copie;
       }
 
-      return JSON.parse(texte) as T;
+      const valeur = JSON.parse(texte);
+
+      // si on attendait un tableau et qu'on lit autre chose,
+      // la donnée est abîmée : on la traite comme une erreur de lecture
+      if (Array.isArray(donneesInitiales) && !Array.isArray(valeur)) {
+        throw new Error('Donnée enregistrée invalide');
+      }
+
+      return valeur as T;
     } catch {
       // données illisibles (JSON cassé) ou localStorage bloqué
       this.erreur.set(
@@ -57,5 +65,15 @@ export class StockageService {
     } catch {
       // si ça échoue, il n'y a rien de plus à faire
     }
+  }
+
+  // Efface toutes les données de l'application et relance la page :
+  // au redémarrage, les services rechargent les données initiales du prof.
+  // (extension facultative du sujet : réinitialisation de la démo)
+  reinitialiser(): void {
+    this.supprimer(CLE_EQUIPEMENTS);
+    this.supprimer(CLE_RESERVATIONS);
+    this.supprimer(CLE_SESSION);
+    window.location.reload();
   }
 }

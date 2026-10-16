@@ -19,4 +19,10 @@ export class App {
     // un guard ne se relance pas tout seul : on quitte nous-mêmes la page privée
     this.router.navigateByUrl('/login');
   }
+
+  reinitialiserDonnees() {
+    if (confirm('Toutes les données (catalogue, réservations, session) vont revenir à leur état initial. Continuer ?')) {
+      this.stockage.reinitialiser();
+    }
+  }
 }

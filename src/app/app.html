@@ -31,7 +31,10 @@
 </header>
 
 @if (stockage.erreur()) {
-  <p class="alerte" role="alert">{{ stockage.erreur() }}</p>
+  <div class="alerte" role="alert">
+    <p>{{ stockage.erreur() }}</p>
+    <button type="button" (click)="reinitialiserDonnees()">Réinitialiser les données de démonstration</button>
+  </div>
 }
 
 <main id="contenu">
