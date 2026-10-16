@@ -1,1 +1,17 @@
-<p>catalogue works!</p>
+<h1>Test de l'étape 2</h1>
+
+<ul>
+  @for (e of catalogue.equipements(); track e.id) {
+    <li>
+      {{ e.id }} – {{ e.nom }} :
+      {{ reservationService.estDisponible(e.id) ? 'Disponible' : 'Réservé' }}
+    </li>
+  }
+</ul>
+
+<button type="button" (click)="aliceReserve()">1. Alice réserve le 101</button>
+<button type="button" (click)="yanisReserve()">2. Yanis réserve le 101</button>
+<button type="button" (click)="camilleSupprime()">3. Camille supprime le 101</button>
+<button type="button" (click)="aliceAnnule()">4. Alice annule</button>
+
+<p role="status">{{ message() }}</p>

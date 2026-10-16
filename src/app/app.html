@@ -11,7 +11,10 @@
     <a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Connexion</a>
   </nav>
 </header>
-
+<!-- bandeau visible seulement si le localStorage a posé problème -->
+@if (stockage.erreur()) {
+  <p class="alerte" role="alert">{{ stockage.erreur() }}</p>
+}
 <main id="contenu">
   <router-outlet />
 </main>
