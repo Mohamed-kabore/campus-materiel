@@ -12,7 +12,6 @@ import { etudiantGuard } from './guards/etudiant.guard';
 import { responsableGuard } from './guards/responsable.guard';
 
 export const routes: Routes = [
-  // "/" : vers le catalogue si on est connecté, sinon vers la connexion
   {
     path: '',
     pathMatch: 'full',
@@ -30,12 +29,11 @@ export const routes: Routes = [
   // page réservée aux étudiants
   { path: 'mes-reservations', component: MesReservations, title: 'Mes réservations', canActivate: [etudiantGuard] },
 
-  // espace responsable, chargé à la demande (diapo 43 du jour 4)
+
   { path: 'gestion', canActivateChild: [responsableGuard],
     loadChildren: () => import('./pages/gestion/gestion.routes')
       .then(m => m.GESTION_ROUTES)
   },
 
-  // toujours en dernier
   { path: '**', component: NotFound, title: 'Page introuvable' },
 ];

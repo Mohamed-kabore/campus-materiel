@@ -6,16 +6,12 @@ import { CLE_RESERVATIONS, StockageService } from './stockage.service';
 export class ReservationService {
   private readonly stockage = inject(StockageService);
 
-  // La liste des réservations actives, modifiable uniquement ici
   private readonly state = signal<Reservation[]>(
     this.stockage.lire(CLE_RESERVATIONS, RESERVATIONS_INITIALES)
   );
 
-  // Version en lecture seule pour les composants
   readonly reservations = this.state.asReadonly();
 
-  // Un équipement est disponible si AUCUNE réservation active ne le concerne.
-  // On ne stocke pas de champ "disponible" : on le calcule toujours.
   estDisponible(equipementId: number): boolean {
     return !this.state().some((r) => r.equipementId === equipementId);
   }
@@ -30,8 +26,8 @@ export class ReservationService {
     return this.state().filter((r) => r.etudiantId === etudiantId);
   }
 
-  // Réserver un équipement.
-  // Renvoie null si tout s'est bien passé, sinon le message d'erreur.
+  // Réserver un équipement on renvoie null si tout s'est bien passé, sinon le message d'erreur.
+
   reserver(equipementId: number, compte: Compte): string | null {
     // seul un étudiant peut réserver
     if (compte.role !== 'student') {
@@ -49,13 +45,13 @@ export class ReservationService {
       etudiantId: compte.id,
     };
 
-    // on crée une nouvelle liste au lieu de modifier l'ancienne
     this.state.update((liste) => [...liste, reservation]);
     this.sauvegarder();
     return null;
   }
 
-  // Annuler une réservation : on la supprime de la liste
+  // Annuler une réservation 
+  
   annuler(reservationId: string, compte: Compte): string | null {
     const reservation = this.state().find((r) => r.id === reservationId);
 

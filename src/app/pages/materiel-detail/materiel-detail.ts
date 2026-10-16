@@ -19,7 +19,7 @@ export class MaterielDetail {
   readonly id = input.required<string>();
   readonly retour = signal<MessageRetour | null>(null);
 
-  // l'équipement correspondant, ou undefined s'il n'existe pas
+  // l'équipement correspondant ou undefined s'il n'existe pas
   readonly equipement = computed(() => {
     const id = Number(this.id());
     if (!Number.isInteger(id)) {
@@ -34,7 +34,6 @@ export class MaterielDetail {
     return e ? this.reservationService.reservationDe(e.id) : undefined;
   });
 
-  // vrai si c'est l'étudiant connecté qui a réservé cet équipement
   readonly reserveParMoi = computed(() => {
     const r = this.reservation();
     const compte = this.session.compte();

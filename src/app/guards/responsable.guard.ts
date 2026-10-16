@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { SessionService } from '../services/session.service';
 
-// Même logique que etudiantGuard, pour le rôle responsable
+
 export const responsableGuard: CanActivateFn = (_, state) => {
   const session = inject(SessionService);
   const router = inject(Router);

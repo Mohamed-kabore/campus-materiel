@@ -50,8 +50,7 @@ export class CatalogueService {
     }
 
     if (!this.reservationService.estDisponible(id)) {
-      return 'Suppression impossible : cet équipement est actuellement réservé par un étudiant. ' +
-        'Il pourra être supprimé une fois la réservation annulée.';
+      return 'Suppression impossible : cet équipement est actuellement réservé par un étudiant.';
     }
 
     this.state.update((liste) => liste.filter((e) => e.id !== id));

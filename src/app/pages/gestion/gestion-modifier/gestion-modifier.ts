@@ -13,11 +13,11 @@ export class GestionModifier {
   private readonly catalogue = inject(CatalogueService);
   private readonly router = inject(Router);
 
-  // rempli avec le :id de l'adresse /gestion/:id/modifier
+  
   readonly id = input.required<string>();
   readonly erreur = signal('');
 
-  // même vérification que la fiche détaillée : texte → nombre entier
+  
   readonly equipement = computed(() => {
     const id = Number(this.id());
     if (!Number.isInteger(id)) {

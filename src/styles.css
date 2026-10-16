@@ -74,15 +74,17 @@ header {
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--rose-700);
   text-decoration: none;
 }
 
-.logo::before {
-  content: '▣ ';
-  color: var(--rose-500);
+.logo img {
+  display: block;
 }
 
 header nav {
@@ -123,7 +125,7 @@ main {
   padding: 0 24px;
 }
 
-/* main et les titres reçoivent le focus par code : pas de contour inutile */
+
 main:focus,
 h1:focus {
   outline: none;
@@ -136,7 +138,7 @@ h1 {
   color: var(--rose-900);
 }
 
-/* petit trait rose sous le titre principal */
+
 h1::after {
   content: '';
   display: block;
@@ -187,7 +189,8 @@ button:hover,
   box-shadow: 0 3px 10px rgba(156, 28, 74, 0.3);
 }
 
-/* bouton de suppression : discret, mais clairement "danger" */
+/* bouton de suppression */
+
 .bouton-danger {
   color: var(--danger);
   background: var(--surface);
@@ -200,7 +203,7 @@ button:hover,
   background: var(--danger);
 }
 
-/* bouton de déconnexion dans l'en-tête */
+/* bouton de déconnexion  */
 header button {
   font-weight: 400;
   color: var(--rose-700);
@@ -216,7 +219,7 @@ header button:hover {
   box-shadow: none;
 }
 
-/* ---------- Focus clavier bien visible ---------- */
+/* Focus clavier */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -226,7 +229,7 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
-/* ---------- Formulaires ---------- */
+/*  Formulaires  */
 form {
   max-width: 640px;
   padding: 24px;
@@ -271,7 +274,7 @@ textarea:focus {
   background: var(--rose-50);
 }
 
-/* champ en erreur (attribut posé par le formulaire réactif) */
+/* champ en erreur */
 [aria-invalid='true'] {
   border-color: var(--danger);
   background: var(--danger-fond);
@@ -292,7 +295,7 @@ textarea:focus {
   font-size: 0.95rem;
 }
 
-/* ---------- Recherche et filtre du catalogue ---------- */
+/*  Recherche et filtre du catalogue  */
 .filtres {
   display: flex;
   flex-wrap: wrap;
@@ -333,7 +336,7 @@ textarea:focus {
   border-color: var(--danger);
 }
 
-/* bandeau d'erreur de stockage, en haut de toutes les pages */
+/* bandeau d'erreur de stockage*/
 .alerte {
   display: flex;
   flex-wrap: wrap;
@@ -467,7 +470,6 @@ th {
   background: var(--rose-100);
 }
 
-/* une ligne sur deux légèrement rosée, et survol plus marqué */
 tbody tr:nth-child(even) {
   background: var(--rose-50);
 }

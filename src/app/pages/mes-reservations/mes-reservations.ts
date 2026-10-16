@@ -36,8 +36,6 @@ export class MesReservations {
     if (!compte) {
       return;
     }
-
-    // le service vérifie que la réservation appartient bien à cet étudiant
     const erreur = this.reservationService.annuler(reservationId, compte);
     this.retour.set(erreur
       ? { texte: erreur, erreur: true }

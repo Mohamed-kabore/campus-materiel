@@ -4,7 +4,6 @@ import { GestionNouveau } from './gestion-nouveau/gestion-nouveau';
 import { GestionModifier } from './gestion-modifier/gestion-modifier';
 
 // Routes de l'espace responsable.
-// Ce fichier est chargé seulement quand on va sur /gestion (lazy loading)
 export const GESTION_ROUTES: Routes = [
   { path: '', component: GestionListe, title: 'Gestion du catalogue' },
   { path: 'nouveau', component: GestionNouveau, title: 'Nouvel équipement' },

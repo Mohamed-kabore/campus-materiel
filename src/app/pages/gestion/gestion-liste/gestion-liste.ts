@@ -15,7 +15,7 @@ export class GestionListe {
   readonly catalogue = inject(CatalogueService);
   readonly reservationService = inject(ReservationService);
 
-  // message éventuel transmis par la page de création ou de modification
+ 
   readonly retour = signal<MessageRetour | null>(history.state?.retour ?? null);
 
   supprimer(e: Equipement) {

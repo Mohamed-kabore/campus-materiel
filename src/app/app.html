@@ -1,7 +1,10 @@
 <a class="lien-evitement" href="#contenu" (click)="allerAuContenu($event)">Aller au contenu</a>
 
 <header>
-  <a class="logo" routerLink="/">Campus Matériel</a>
+  <a class="logo" routerLink="/">
+    <img src="logo.svg" alt="" width="36" height="36" />
+    Campus Matériel
+  </a>
 
   <nav aria-label="Menu principal">
     @if (session.estConnecte()) {
@@ -35,7 +38,9 @@
 @if (stockage.erreur()) {
   <div class="alerte" role="alert">
     <p>{{ stockage.erreur() }}</p>
-    <button type="button" (click)="reinitialiserDonnees()">Réinitialiser les données de démonstration</button>
+    <button type="button" (click)="reinitialiserDonnees()">
+      Réinitialiser les données de démonstration
+    </button>
   </div>
 }
 

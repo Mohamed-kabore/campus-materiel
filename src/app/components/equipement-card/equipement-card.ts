@@ -3,8 +3,8 @@ import { RouterLink } from '@angular/router';
 import { Equipement } from '../../data/donnees-initiales';
 
 // Carte qui affiche un équipement dans le catalogue.
-// Elle ne connaît pas les services : la page parente lui donne
-// les infos (input) et la carte lui renvoie les demandes (output).
+
+// les infos (input) et la carte lui renvoie les demandes.
 @Component({
   selector: 'app-equipement-card',
   imports: [RouterLink],
@@ -14,6 +14,7 @@ import { Equipement } from '../../data/donnees-initiales';
 export class EquipementCard {
   readonly equipement = input.required<Equipement>();
   readonly disponible = input.required<boolean>();
+
   // false par défaut : seul un étudiant verra le bouton
   readonly peutReserver = input(false);
 

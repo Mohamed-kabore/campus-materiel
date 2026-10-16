@@ -11,8 +11,8 @@ import {
 import { CATEGORIES, Categorie, Equipement } from '../../data/donnees-initiales';
 import { DonneesEquipement } from '../../services/catalogue.service';
 
-// Validateur maison : vérifie la longueur SANS compter les espaces
-// au début et à la fin (sinon "   " passerait pour 3 caractères)
+// Validateur qui vérifie la longueur sans compter les espaces
+
 function longueurMin(min: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const valeur = (control.value ?? '').trim();
@@ -23,9 +23,8 @@ function longueurMin(min: number): ValidatorFn {
 // les noms des champs du formulaire
 type Champ = 'nom' | 'categorie' | 'description' | 'localisation';
 
-// Formulaire utilisé à la fois pour CRÉER et pour MODIFIER un équipement.
-// - création : on ne lui donne pas d'équipement, les champs sont vides
-// - modification : on lui donne l'équipement, les champs sont pré-remplis
+// Formulaire utilisé à la fois pour créer et pour modifier un équipement.
+
 @Component({
   selector: 'app-materiel-form',
   imports: [ReactiveFormsModule],
@@ -76,8 +75,7 @@ export class MaterielForm implements OnInit {
     }
   }
 
-  // on affiche l'erreur d'un champ seulement si l'utilisateur l'a déjà
-  // touché ou a essayé d'envoyer (pas de rouge partout à l'ouverture)
+  // on affiche l'erreur d'un champ seulement si l'utilisateur l'a déjà touché ou a essayé d'envoyer 
   afficherErreur(champ: Champ): boolean {
     const control = this.formulaire.controls[champ];
     return control.invalid && (control.touched || this.soumis());
@@ -87,7 +85,7 @@ export class MaterielForm implements OnInit {
     this.soumis.set(true);
 
     if (this.formulaire.invalid) {
-      // on affiche toutes les erreurs, et on ne vide surtout pas les champs
+      // on affiche toutes les erreurs sans vider les champs
       this.formulaire.markAllAsTouched();
       return;
     }

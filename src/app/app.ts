@@ -15,9 +15,7 @@ export class App {
   private readonly router = inject(Router);
 
   constructor() {
-    // Diapo 49 (jour 4) : après chaque navigation, on place le focus
-    // sur le titre de la nouvelle page, pour que les utilisateurs
-    // au clavier ou au lecteur d'écran sachent que la page a changé
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         setTimeout(() => {
@@ -29,7 +27,7 @@ export class App {
     });
   }
 
-  // lien "Aller au contenu" : on saute directement au contenu principal
+
   allerAuContenu(event: Event) {
     event.preventDefault();
     document.getElementById('contenu')?.focus();
@@ -37,7 +35,7 @@ export class App {
 
   deconnecter() {
     this.session.deconnecter();
-    // un guard ne se relance pas tout seul : on quitte nous-mêmes la page privée
+    
     this.router.navigateByUrl('/login');
   }
 

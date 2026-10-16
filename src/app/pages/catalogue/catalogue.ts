@@ -25,7 +25,6 @@ export class Catalogue {
   readonly categorieCtrl = new FormControl('', { nonNullable: true });
 
   // on transforme les valeurs des champs en signals
-  // (même outil que le filtre de la diapo 15 du jour 4)
   private readonly recherche = toSignal(this.rechercheCtrl.valueChanges, { initialValue: '' });
   private readonly categorie = toSignal(this.categorieCtrl.valueChanges, { initialValue: '' });
 
@@ -41,20 +40,18 @@ export class Catalogue {
     });
   });
 
-  // remet les deux champs à zéro
+  // On remet les deux champs à zéro
   reinitialiser() {
     this.rechercheCtrl.setValue('');
     this.categorieCtrl.setValue('');
   }
 
-  // appelée quand une carte émet une demande de réservation
   reserver(equipementId: number) {
     const compte = this.session.compte();
     if (!compte) {
       return;
     }
 
-    // c'est le service qui contrôle les règles (étudiant, disponibilité)
     const erreur = this.reservationService.reserver(equipementId, compte);
 
     if (erreur) {

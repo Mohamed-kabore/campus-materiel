@@ -23,12 +23,16 @@
 </div>
 
 @if (retour(); as r) {
-  <p class="message" [class.message-erreur]="r.erreur" [class.message-succes]="!r.erreur" role="status">
+  <p
+    class="message"
+    [class.message-erreur]="r.erreur"
+    [class.message-succes]="!r.erreur"
+    role="status"
+  >
     {{ r.texte }}
   </p>
 }
 
-<!-- annoncé par les lecteurs d'écran à chaque changement de filtre -->
 <p class="resultats" role="status">{{ equipementsFiltres().length }} équipement(s) trouvé(s)</p>
 
 @if (catalogue.equipements().length === 0) {

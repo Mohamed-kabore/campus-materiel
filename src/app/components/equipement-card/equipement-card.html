@@ -7,7 +7,6 @@
 
   <p class="carte-lieu">{{ equipement().localisation }}</p>
 
-  <!-- le texte dit l'état, la couleur (étape 8) ne fait que le renforcer -->
   <p class="badge" [class.badge-dispo]="disponible()" [class.badge-reserve]="!disponible()">
     {{ disponible() ? 'Disponible' : 'Réservé' }}
   </p>
