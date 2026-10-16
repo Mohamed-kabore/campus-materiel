@@ -1,1 +1,585 @@
-/* You can add global styles to this file, and also import other style files */
+/* ========================================================
+   Campus Matériel - styles globaux
+   (tout ce qui est partagé entre plusieurs pages)
+   ======================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+
+/* ---------- Couleurs et réglages communs ---------- */
+:root {
+  /* palette de roses, du plus clair au plus foncé */
+  --rose-50: #fff5f8;
+  --rose-100: #fde6ee;
+  --rose-200: #f9c9da;
+  --rose-300: #f2a1bf;
+  --rose-500: #d63d74;
+  --rose-600: #c2255c;
+  --rose-700: #9c1c4a;
+  --rose-900: #4a1027;
+
+  --encre: #3a1426;          /* texte principal (prune très foncé) */
+  --encre-douce: #7a4a5e;    /* texte secondaire */
+  --fond: var(--rose-50);    /* fond de la page */
+  --surface: #ffffff;        /* fond des blocs */
+  --bordure: #f3cfdc;
+  --accent: var(--rose-600); /* liens et boutons (contraste suffisant avec du blanc) */
+  --accent-fonce: var(--rose-700);
+  --surligneur: var(--rose-200); /* lien actif du menu */
+  --succes: #1c6b42;
+  --succes-fond: #e4f4ea;
+  --danger: #b42318;
+  --danger-fond: #fbe9e7;
+  --rayon: 12px;
+  --ombre: 0 1px 2px rgba(74, 16, 39, 0.06), 0 4px 14px rgba(194, 37, 92, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--encre);
+  background: var(--fond);
+}
+
+/* ---------- Lien "Aller au contenu" (visible seulement au clavier) ---------- */
+.lien-evitement {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  padding: 8px 14px;
+  background: var(--rose-900);
+  color: #ffffff;
+  border-radius: var(--rayon);
+  z-index: 10;
+}
+
+.lien-evitement:focus {
+  top: 12px;
+}
+
+/* ---------- En-tête ---------- */
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 32px;
+  padding: 14px 32px;
+  background: linear-gradient(90deg, var(--rose-100), var(--rose-50) 60%, var(--rose-100));
+  border-bottom: 3px solid var(--rose-300);
+}
+
+.logo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--rose-700);
+  text-decoration: none;
+}
+
+.logo::before {
+  content: '▣ ';
+  color: var(--rose-500);
+}
+
+header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+
+header nav a {
+  color: var(--encre);
+  text-decoration: none;
+  padding: 2px;
+}
+
+header nav a:hover {
+  color: var(--accent);
+}
+
+/* lien de la page en cours : effet surligneur */
+header a.active {
+  font-weight: 700;
+  background: linear-gradient(transparent 60%, var(--surligneur) 60%);
+}
+
+.session {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  color: var(--encre-douce);
+  font-size: 0.95rem;
+}
+
+/* ---------- Contenu ---------- */
+main {
+  max-width: 1040px;
+  margin: 32px auto;
+  padding: 0 24px;
+}
+
+/* main et les titres reçoivent le focus par code : pas de contour inutile */
+main:focus,
+h1:focus {
+  outline: none;
+}
+
+h1 {
+  font-size: 1.9rem;
+  line-height: 1.2;
+  margin: 0 0 20px;
+  color: var(--rose-900);
+}
+
+/* petit trait rose sous le titre principal */
+h1::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 4px;
+  margin-top: 10px;
+  background: linear-gradient(90deg, var(--rose-600), var(--rose-300));
+  border-radius: 2px;
+}
+
+h2 {
+  font-size: 1.25rem;
+  color: var(--rose-700);
+}
+
+a {
+  color: var(--accent);
+}
+
+a:hover {
+  color: var(--accent-fonce);
+}
+
+/* ---------- Boutons ---------- */
+button,
+.bouton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 9px 16px;
+  color: #ffffff;
+  background: var(--accent);
+  border: 1px solid transparent;
+  border-radius: var(--rayon);
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(194, 37, 92, 0.25);
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+button:hover,
+.bouton:hover {
+  color: #ffffff;
+  background: var(--accent-fonce);
+  box-shadow: 0 3px 10px rgba(156, 28, 74, 0.3);
+}
+
+/* bouton de suppression : discret, mais clairement "danger" */
+.bouton-danger {
+  color: var(--danger);
+  background: var(--surface);
+  border-color: var(--danger);
+  box-shadow: none;
+}
+
+.bouton-danger:hover {
+  color: #ffffff;
+  background: var(--danger);
+}
+
+/* bouton de déconnexion dans l'en-tête */
+header button {
+  font-weight: 400;
+  color: var(--rose-700);
+  background: var(--surface);
+  border-color: var(--rose-300);
+  box-shadow: none;
+}
+
+header button:hover {
+  color: var(--rose-700);
+  background: var(--rose-100);
+  border-color: var(--rose-600);
+  box-shadow: none;
+}
+
+/* ---------- Focus clavier bien visible ---------- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Formulaires ---------- */
+form {
+  max-width: 640px;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre);
+}
+
+.champ {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+label {
+  font-weight: 700;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  max-width: 520px;
+  font: inherit;
+  padding: 9px 12px;
+  color: var(--encre);
+  background: var(--surface);
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+}
+
+textarea {
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--rose-500);
+  background: var(--rose-50);
+}
+
+/* champ en erreur (attribut posé par le formulaire réactif) */
+[aria-invalid='true'] {
+  border-color: var(--danger);
+  background: var(--danger-fond);
+}
+
+.erreur-champ {
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.95rem;
+}
+
+.erreur-champ::before {
+  content: '⚠ ';
+}
+
+.aide {
+  color: var(--encre-douce);
+  font-size: 0.95rem;
+}
+
+/* ---------- Recherche et filtre du catalogue ---------- */
+.filtres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, var(--rose-100), var(--surface));
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+}
+
+.filtres .champ {
+  flex: 1 1 240px;
+  margin: 0;
+}
+
+.resultats {
+  margin: 16px 0;
+  color: var(--encre-douce);
+}
+
+/* ---------- Messages ---------- */
+.message {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  border-left: 4px solid;
+  border-radius: var(--rayon);
+}
+
+.message-succes {
+  color: var(--succes);
+  background: var(--succes-fond);
+  border-color: var(--succes);
+}
+
+.message-erreur {
+  color: var(--danger);
+  background: var(--danger-fond);
+  border-color: var(--danger);
+}
+
+/* bandeau d'erreur de stockage, en haut de toutes les pages */
+.alerte {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: calc(100% - 48px);
+  max-width: 992px;
+  margin: 16px auto 0;
+  padding: 12px 16px;
+  background: var(--danger-fond);
+  border-left: 4px solid var(--danger);
+  border-radius: var(--rayon);
+}
+
+.alerte p {
+  margin: 0;
+  color: var(--danger);
+}
+
+.message-vide {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--encre-douce);
+  background: var(--surface);
+  border: 2px dashed var(--rose-200);
+  border-radius: var(--rayon);
+}
+
+.info {
+  padding: 12px 16px;
+  background: var(--rose-100);
+  border-left: 4px solid var(--surligneur);
+  border-radius: var(--rayon);
+}
+
+.erreur {
+  color: var(--danger);
+}
+
+/* ---------- Badges de disponibilité ---------- */
+.badge {
+  display: inline-block;
+  margin: 0;
+  padding: 2px 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 999px;
+}
+
+.badge-dispo {
+  color: var(--succes);
+  background: var(--succes-fond);
+}
+
+.badge-reserve {
+  color: var(--rose-700);
+  background: var(--rose-100);
+}
+
+/* ---------- Grille du catalogue ---------- */
+.grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---------- Fiche détaillée ---------- */
+.fiche {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 10px 24px;
+  margin: 20px 0;
+  padding: 20px 24px;
+  background: var(--surface);
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+}
+
+.fiche dt {
+  font-weight: 700;
+  color: var(--encre-douce);
+}
+
+.fiche dd {
+  margin: 0;
+}
+
+.bloc-reservation {
+  padding: 4px 24px 20px;
+  background: var(--surface);
+  border: 1px solid var(--bordure);
+  border-top: 4px solid var(--rose-300);
+  border-radius: var(--rayon);
+}
+
+/* ---------- Tableau de gestion ---------- */
+.tableau-defilant {
+  overflow-x: auto;
+  background: var(--surface);
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+}
+
+table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+}
+
+caption {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 700;
+  color: var(--rose-700);
+}
+
+th,
+td {
+  padding: 12px 16px;
+  text-align: left;
+  border-top: 1px solid var(--bordure);
+}
+
+th {
+  font-size: 0.9rem;
+  color: var(--rose-900);
+  background: var(--rose-100);
+}
+
+/* une ligne sur deux légèrement rosée, et survol plus marqué */
+tbody tr:nth-child(even) {
+  background: var(--rose-50);
+}
+
+tbody tr:hover {
+  background: var(--rose-100);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ---------- Mes réservations ---------- */
+.liste-reservations {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.liste-reservations li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 1px solid var(--bordure);
+  border-left: 5px solid var(--rose-500);
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre);
+}
+
+.liste-reservations a {
+  font-weight: 700;
+}
+
+.detail {
+  margin: 2px 0 0;
+  font-size: 0.95rem;
+  color: var(--encre-douce);
+}
+
+/* ---------- Page de connexion ---------- */
+.comptes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  max-width: 760px;
+  padding: 0;
+  list-style: none;
+}
+
+.compte {
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 16px 18px;
+  color: var(--encre);
+  background: var(--surface);
+  border-color: var(--bordure);
+  box-shadow: var(--ombre);
+}
+
+.compte:hover {
+  color: var(--encre);
+  background: var(--rose-100);
+  border-color: var(--rose-500);
+}
+
+.compte-nom {
+  font-size: 1.05rem;
+}
+
+.compte-role {
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: var(--encre-douce);
+}
+
+/* ---------- Petits écrans (téléphone) ---------- */
+@media (max-width: 640px) {
+  header {
+    padding: 14px 16px;
+  }
+
+  .session {
+    margin-left: 0;
+  }
+
+  main {
+    margin-top: 20px;
+    padding: 0 16px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .fiche {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .fiche dd {
+    margin-bottom: 10px;
+  }
+
+  .liste-reservations li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -1,3 +1,5 @@
+<a class="lien-evitement" href="#contenu" (click)="allerAuContenu($event)">Aller au contenu</a>
+
 <header>
   <a class="logo" routerLink="/">Campus Matériel</a>
 
@@ -37,6 +39,6 @@
   </div>
 }
 
-<main id="contenu">
+<main id="contenu" tabindex="-1">
   <router-outlet />
 </main>
