@@ -1,17 +1,46 @@
-<h1>Test de l'étape 2</h1>
+<h1>Catalogue du matériel</h1>
 
-<ul>
-  @for (e of catalogue.equipements(); track e.id) {
-    <li>
-      {{ e.id }} – {{ e.nom }} :
-      {{ reservationService.estDisponible(e.id) ? 'Disponible' : 'Réservé' }}
-    </li>
-  }
-</ul>
+<div class="filtres">
+  <div class="champ">
+    <label for="recherche">Rechercher par nom</label>
+    <input
+      id="recherche"
+      type="search"
+      [formControl]="rechercheCtrl"
+      placeholder="Ex. : ordinateur"
+    />
+  </div>
 
-<button type="button" (click)="aliceReserve()">1. Alice réserve le 101</button>
-<button type="button" (click)="yanisReserve()">2. Yanis réserve le 101</button>
-<button type="button" (click)="camilleSupprime()">3. Camille supprime le 101</button>
-<button type="button" (click)="aliceAnnule()">4. Alice annule</button>
+  <div class="champ">
+    <label for="categorie">Catégorie</label>
+    <select id="categorie" [formControl]="categorieCtrl">
+      <option value="">Toutes les catégories</option>
+      @for (c of categories; track c) {
+        <option [value]="c">{{ c }}</option>
+      }
+    </select>
+  </div>
+</div>
 
-<p role="status">{{ message() }}</p>
+<!-- annoncé par les lecteurs d'écran à chaque changement de filtre -->
+<p class="resultats" role="status">{{ equipementsFiltres().length }} équipement(s) trouvé(s)</p>
+
+@if (catalogue.equipements().length === 0) {
+  <p class="message-vide">Le catalogue est vide pour le moment.</p>
+} @else if (equipementsFiltres().length === 0) {
+  <div class="message-vide">
+    <p>Aucun équipement ne correspond à votre recherche.</p>
+    <button type="button" (click)="reinitialiser()">Réinitialiser les filtres</button>
+  </div>
+} @else {
+  <ul class="grille">
+    @for (e of equipementsFiltres(); track e.id) {
+      <li>
+        <app-equipement-card
+          [equipement]="e"
+          [disponible]="reservationService.estDisponible(e.id)"
+        />
+      </li>
+    }
+  </ul>
+}

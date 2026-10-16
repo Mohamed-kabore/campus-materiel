@@ -1,0 +1,14 @@
+<article class="carte">
+  <p class="carte-categorie">{{ equipement().categorie }}</p>
+
+  <h2 class="carte-titre">
+    <a [routerLink]="['/materiels', equipement().id]">{{ equipement().nom }}</a>
+  </h2>
+
+  <p class="carte-lieu">{{ equipement().localisation }}</p>
+
+  <!-- le texte dit l'état, la couleur (étape 8) ne fait que le renforcer -->
+  <p class="badge" [class.badge-dispo]="disponible()" [class.badge-reserve]="!disponible()">
+    {{ disponible() ? 'Disponible' : 'Réservé' }}
+  </p>
+</article>

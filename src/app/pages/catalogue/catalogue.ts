@@ -1,43 +1,47 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CatalogueService } from '../../services/catalogue.service';
 import { ReservationService } from '../../services/reservation.service';
-import { COMPTES_INITIAUX } from '../../data/donnees-initiales';
+import { CATEGORIES } from '../../data/donnees-initiales';
+import { EquipementCard } from '../../components/equipement-card/equipement-card';
 
-// PAGE DE TEST PROVISOIRE (étape 2), remplacée à l'étape 3
 @Component({
   selector: 'app-catalogue',
-  imports: [],
+  imports: [ReactiveFormsModule, EquipementCard],
   templateUrl: './catalogue.html',
   styleUrl: './catalogue.css'
 })
 export class Catalogue {
   readonly catalogue = inject(CatalogueService);
   readonly reservationService = inject(ReservationService);
-  readonly message = signal('');
 
-  // on teste avec les comptes du prof, la vraie session arrive à l'étape 4
-  private readonly alice = COMPTES_INITIAUX[0];
-  private readonly yanis = COMPTES_INITIAUX[1];
-  private readonly camille = COMPTES_INITIAUX[2];
+  readonly categories = CATEGORIES;
 
-  aliceReserve() {
-    this.message.set(this.reservationService.reserver(101, this.alice) ?? 'Alice a réservé le 101');
-  }
+  // les deux champs de recherche (formulaires réactifs)
+  readonly rechercheCtrl = new FormControl('', { nonNullable: true });
+  readonly categorieCtrl = new FormControl('', { nonNullable: true });
 
-  yanisReserve() {
-    this.message.set(this.reservationService.reserver(101, this.yanis) ?? 'Yanis a réservé le 101');
-  }
+  // on transforme les valeurs des champs en signals
+  // (même outil que le filtre de la diapo 15 du jour 4)
+  private readonly recherche = toSignal(this.rechercheCtrl.valueChanges, { initialValue: '' });
+  private readonly categorie = toSignal(this.categorieCtrl.valueChanges, { initialValue: '' });
 
-  camilleSupprime() {
-    this.message.set(this.catalogue.supprimer(101) ?? 'Le 101 a été supprimé');
-  }
+  // la liste affichée, recalculée dès qu'un filtre ou le catalogue change
+  readonly equipementsFiltres = computed(() => {
+    const texte = this.recherche().trim().toLowerCase();
+    const categorie = this.categorie();
 
-  aliceAnnule() {
-    const reservation = this.reservationService.reservationDe(101);
-    if (!reservation) {
-      this.message.set('Le 101 n\'est pas réservé');
-      return;
-    }
-    this.message.set(this.reservationService.annuler(reservation.id, this.alice) ?? 'Alice a annulé');
+    return this.catalogue.equipements().filter((e) => {
+      const nomOk = e.nom.toLowerCase().includes(texte);
+      const categorieOk = categorie === '' || e.categorie === categorie;
+      return nomOk && categorieOk;
+    });
+  });
+
+  // remet les deux champs à zéro
+  reinitialiser() {
+    this.rechercheCtrl.setValue('');
+    this.categorieCtrl.setValue('');
   }
 }

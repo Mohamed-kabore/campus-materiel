@@ -1,1 +1,33 @@
-<p>materiel-detail works!</p>
+<p><a routerLink="/catalogue">← Retour au catalogue</a></p>
+
+@if (equipement(); as e) {
+  <h1>{{ e.nom }}</h1>
+
+  <p
+    class="badge"
+    [class.badge-dispo]="reservationService.estDisponible(e.id)"
+    [class.badge-reserve]="!reservationService.estDisponible(e.id)"
+  >
+    {{ reservationService.estDisponible(e.id) ? 'Disponible' : 'Réservé' }}
+  </p>
+
+  <dl class="fiche">
+    <dt>Identifiant</dt>
+    <dd>{{ e.id }}</dd>
+
+    <dt>Catégorie</dt>
+    <dd>{{ e.categorie }}</dd>
+
+    <dt>Description</dt>
+    <dd>{{ e.description }}</dd>
+
+    <dt>Localisation</dt>
+    <dd>{{ e.localisation }}</dd>
+  </dl>
+
+  <!-- le bouton "Réserver" sera ajouté à l'étape 5 -->
+} @else {
+  <h1>Équipement introuvable</h1>
+  <p>Aucun équipement ne porte l'identifiant « {{ id() }} ». Il a peut-être été supprimé.</p>
+  <p><a routerLink="/catalogue">Voir tout le catalogue</a></p>
+}
